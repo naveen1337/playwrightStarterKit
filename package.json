@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "playwright test",
-    "start:ui":"playwright test --ui"
+    "start:ui":"playwright test --ui",
+    "mytest":"playwright test isAvailable.spec.ts"
   },
   "keywords": [],
   "author": "",

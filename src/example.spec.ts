@@ -1,18 +1,30 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, BrowserContext, Page } from '@playwright/test';
+import {homePage as homePaths} from "../assets/pagePaths"
+import {homePage as homeStrings} from "../assets/strings"
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test.describe.configure({ mode: 'serial' });
+
+let page: Page;
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+  page.setDefaultTimeout(1000)
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test.afterAll(async () => {
+    await page.close();
+  });
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+test.describe("is home page is availble",()=>{
+    test("is home page is valid",async()=>{
+        await page.goto('https://demo.vercel.store/',{referer:"test",waitUntil:"domcontentloaded"});
+        const pageTitle = await page.title()
+        const navbar = await page.locator(homePaths.navBar).innerHTML()
+        const logoLink = await page.locator(homePaths.logoLink)
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});
+        expect(pageTitle).toBe(homeStrings.title);
+        expect(navbar).toBeTruthy();
+        expect(logoLink).toBeTruthy();
+    })
+})

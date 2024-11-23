@@ -3,9 +3,10 @@ import { defineConfig, devices } from '@playwright/test';
 const config = defineConfig({
   testDir: "./src",
   fullyParallel: true,
-  reporter: 'html',
+  // reporter: 'html',
+  reporter: 'list',
   use: {
-    headless: false,
+    headless: true,
   },
   projects: [
     {
@@ -14,7 +15,8 @@ const config = defineConfig({
         userAgent: "testing",
         isMobile: false,
         hasTouch: false,
-        defaultBrowserType: 'chromium'
+        defaultBrowserType: 'chromium',
+        actionTimeout:30*1000
       }
     }
   ]
